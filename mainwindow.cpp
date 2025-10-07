@@ -26,10 +26,18 @@ MainWindow::MainWindow(QWidget *parent)
 		ui->leFromDetailed16->setText(details.forHex);
 	};
 
-	connect(ui->leFrom, &QLineEdit::textChanged, viewDetailedFoo);
-	connect(ui->rBntFrom2, &QRadioButton::clicked, viewDetailedFoo);
-	connect(ui->rBntFrom10, &QRadioButton::clicked, viewDetailedFoo);
-	connect(ui->rBntFrom16, &QRadioButton::clicked, viewDetailedFoo);
+	connect(ui->leFrom,     &QLineEdit::textChanged, this, viewDetailedFoo);
+	connect(ui->rBntFrom2,  &QRadioButton::clicked,  this, viewDetailedFoo);
+	connect(ui->rBntFrom10, &QRadioButton::clicked,  this, viewDetailedFoo);
+	connect(ui->rBntFrom16, &QRadioButton::clicked,  this, viewDetailedFoo);
+
+	connect(ui->leFrom,     &QLineEdit::textChanged, this, &MainWindow::SlotConvert);
+	connect(ui->rBntFrom2,  &QRadioButton::clicked,  this, &MainWindow::SlotConvert);
+	connect(ui->rBntFrom10, &QRadioButton::clicked,  this, &MainWindow::SlotConvert);
+	connect(ui->rBntFrom16, &QRadioButton::clicked,  this, &MainWindow::SlotConvert);
+	connect(ui->rBntTo2,    &QRadioButton::clicked,  this, &MainWindow::SlotConvert);
+	connect(ui->rBntTo10,   &QRadioButton::clicked,  this, &MainWindow::SlotConvert);
+	connect(ui->rBntTo16,   &QRadioButton::clicked,  this, &MainWindow::SlotConvert);
 }
 
 MainWindow::~MainWindow()
@@ -73,7 +81,7 @@ int MainWindow::GetBase(QRadioButton *rBnt2, QRadioButton *rBnt10, QRadioButton 
 	return -1;
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::SlotConvert()
 {
 	QString src=ui->leFrom->text();
 

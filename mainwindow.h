@@ -24,7 +24,7 @@ public:
 	int GetBase(QRadioButton *rBnt2, QRadioButton *rBnt10, QRadioButton *rBnt16);
 
 private slots:
-	void on_pushButton_clicked();
+	void SlotConvert();
 
 private:
 	Ui::MainWindow *ui;

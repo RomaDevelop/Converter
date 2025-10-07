@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>553</width>
-    <height>339</height>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,23 +45,8 @@
       <pointsize>14</pointsize>
      </font>
     </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>290</y>
-      <width>121</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Преобразовать</string>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -202,6 +187,35 @@
       <width>531</width>
       <height>21</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>290</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>For notes:</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>310</y>
+      <width>531</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Courier New</family>
+      <pointsize>14</pointsize>
+     </font>
     </property>
    </widget>
   </widget>
