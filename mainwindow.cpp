@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	auto viewDetailedFoo = [this](){
 		int fromBase=GetBase(ui->rBntFrom2, ui->rBntFrom10, ui->rBntFrom16);
-		auto details = Details(ui->leFrom->text(), fromBase);
+		auto details = Details(ui->leFrom->text().remove(' '), fromBase);
 		ui->leFromDetailed2->setText(details.forBin);
 		ui->leFromDetailed10->setText(details.forDec);
 		ui->leFromDetailed16->setText(details.forHex);
@@ -91,7 +91,7 @@ void MainWindow::SlotConvert()
 
 	bool ok;
 	long long srcLL {src.toLongLong(&ok,fromBase)};
-	if(!ok) QMessageBox::warning(this,"Error","Error converting src");
+	if(!ok) { ui->leTo->setText("Error converting src"); return; }
 
 	int toBase=GetBase(ui->rBntTo2, ui->rBntTo10, ui->rBntTo16);
 
