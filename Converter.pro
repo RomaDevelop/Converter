@@ -3,14 +3,11 @@ QT       += core gui widgets
 CONFIG += c++17
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    WindowConverter.cpp \
+    main.cpp
 
 HEADERS += \
-    mainwindow.h
-
-FORMS += \
-    mainwindow.ui
+	WindowConverter.h
 
 INCLUDEPATH += \
 	../include
