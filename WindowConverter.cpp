@@ -8,6 +8,8 @@
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QPushButton>
+#include <QSettings>
 
 #include "MyQShortings.h"
 #include "MyQWidget.h"
@@ -23,6 +25,10 @@ WindowConverter::WindowConverter(QWidget *parent)
 	rBntTo2 = new QRadioButton("2");
 	rBntTo10 = new QRadioButton("10");
 	rBntTo16 = new QRadioButton("16");
+
+	chBoxUpperCase = new QCheckBox("Upper case");
+
+	auto btnNewConverter = new QPushButton("Open another");
 
 	rBntFrom2->setChecked(true);
 	rBntTo10->setChecked(true);
@@ -72,7 +78,12 @@ WindowConverter::WindowConverter(QWidget *parent)
 	hloGrBoxTo->addWidget(rBntTo2);
 	hloGrBoxTo->addWidget(rBntTo10);
 	hloGrBoxTo->addWidget(rBntTo16);
+	hloGrBoxTo->addSpacing(10);
+	hloGrBoxTo->addWidget(chBoxUpperCase);
+
 	hloGrBoxTo->addStretch();
+
+	hloGrBoxTo->addWidget(btnNewConverter);
 
 	vloMain->addWidget(leTo);
 
@@ -103,11 +114,25 @@ WindowConverter::WindowConverter(QWidget *parent)
 	connect(rBntTo2,    &QRadioButton::clicked,  this, &WindowConverter::SlotConvert);
 	connect(rBntTo10,   &QRadioButton::clicked,  this, &WindowConverter::SlotConvert);
 	connect(rBntTo16,   &QRadioButton::clicked,  this, &WindowConverter::SlotConvert);
+
+	connect(btnNewConverter, &QPushButton::clicked, this, &WindowConverter::SloOpenNewConverter);
+
+	if(QFileInfo(filesPath).isDir() == false)
+		if(not QDir().mkpath(filesPath)) QMbError("Can't create dir "+filesPath);
+
+	if(QFileInfo(settigsFile).isFile())
+	{
+		QSettings settings(settigsFile, QSettings::IniFormat);
+		if(settings.contains("chBoxUpperCase_checked"))
+			chBoxUpperCase->setChecked((bool)settings.value("chBoxUpperCase_checked").toInt() );
+	}
 }
 
 WindowConverter::~WindowConverter()
 {
-
+	MyQFileDir::WriteFile(settigsFile, "");
+	QSettings settings(settigsFile, QSettings::IniFormat);
+	settings.setValue("chBoxUpperCase_checked", (int)chBoxUpperCase->isChecked());
 }
 
 WindowConverter::DetailsRes WindowConverter::Details(QString value, int base)
@@ -128,6 +153,7 @@ WindowConverter::DetailsRes WindowConverter::Details(QString value, int base)
 		QString convertedByte2 = QSn(byte.toUShort(nullptr, newBase), 2).rightJustified(8,'0');
 		QString convertedByte10 = QSn(byte.toUShort(nullptr, newBase), 10).rightJustified(3,'0');
 		QString convertedByte16 = QSn(byte.toUShort(nullptr, newBase), 16).rightJustified(2,'0');
+		if(chBoxUpperCase->isChecked()) convertedByte16 = convertedByte16.toUpper();
 
 		res.forBin += convertedByte2 + "  ";
 		res.forDec += convertedByte10 + "  ";
@@ -160,5 +186,16 @@ void WindowConverter::SlotConvert()
 
 	int toBase=GetBase(rBntTo2, rBntTo10, rBntTo16);
 
-	leTo->setText(QString::number(srcLL,toBase));
+	QString result = QString::number(srcLL, toBase);
+	if(chBoxUpperCase->isChecked()) result = result.toUpper();
+	leTo->setText(result);
+}
+
+void WindowConverter::SloOpenNewConverter()
+{
+	auto newConverter = new WindowConverter();
+	newConverter->show();
+	QTimer::singleShot(0,[this, newConverter](){
+		newConverter->move(pos()+={30,30});
+	});
 }

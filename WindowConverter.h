@@ -5,8 +5,10 @@
 #include <QLineEdit>
 #include <QRadioButton>
 #include <QTextEdit>
+#include <QCheckBox>
 
 #include "declare_struct.h"
+#include "MyQDifferent.h"
 
 class WindowConverter : public QWidget
 {
@@ -22,6 +24,7 @@ private:
 	int GetBase(QRadioButton *rBnt2, QRadioButton *rBnt10, QRadioButton *rBnt16);
 
 	void SlotConvert();
+	void SloOpenNewConverter();
 
 	QRadioButton *rBntFrom2;
 	QRadioButton *rBntFrom10;
@@ -30,6 +33,8 @@ private:
 	QRadioButton *rBntTo10;
 	QRadioButton *rBntTo16;
 
+	QCheckBox *chBoxUpperCase;
+
 	QLineEdit *leFrom;
 	QLineEdit *leFromDetailed2;
 	QLineEdit *leFromDetailed10;
@@ -37,5 +42,8 @@ private:
 	QLineEdit *leTo;
 
 	QTextEdit *textEditForNotes;
+
+	QString filesPath = MyQDifferent::ExePath()+"/files";
+	QString settigsFile = filesPath+"/settings.ini";
 };
 #endif // MAINWINDOW_H
